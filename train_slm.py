@@ -1,24 +1,38 @@
 # train_slm.py
 import math
+import argparse
 import torch
 from torch.utils.data import Dataset, DataLoader
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from datasets import load_dataset
 
 # ------------------------------
-# Config
+# Argparse config
 # ------------------------------
-STUDENT_MODEL_NAME = "gpt2"   # student (trained with SLM)
-REF_MODEL_NAME = "gpt2"       # reference model (frozen)
+parser = argparse.ArgumentParser()
+parser.add_argument("--select_ratio", type=float, default=0.6,
+                    help="Fraction of tokens to keep (0–1).")
+parser.add_argument("--epochs", type=int, default=1,
+                    help="Number of training epochs.")
+parser.add_argument("--batch_size", type=int, default=8,
+                    help="Batch size.")
+parser.add_argument("--subset_train_blocks", type=int, default=None,
+                    help="If set, only use this many training blocks (faster runs).")
+args = parser.parse_args()
+
+STUDENT_MODEL_NAME = "gpt2"
+REF_MODEL_NAME = "gpt2"
 BLOCK_SIZE = 128
-BATCH_SIZE = 8
-NUM_EPOCHS = 1
+BATCH_SIZE = args.batch_size
+NUM_EPOCHS = args.epochs
+SELECT_RATIO = args.select_ratio
 LEARNING_RATE = 5e-5
 LOG_EVERY = 100
-SELECT_RATIO = 0.6            # k% of tokens kept (0.6 == 60%)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("Using device:", device)
+print(f"Config: epochs={NUM_EPOCHS}, batch_size={BATCH_SIZE}, select_ratio={SELECT_RATIO}")
+
 
 # ------------------------------
 # Load tokenizer & dataset

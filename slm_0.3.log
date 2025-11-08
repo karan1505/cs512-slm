@@ -1,0 +1,32 @@
+Using device: cuda
+Config: epochs=1, batch_size=8, select_ratio=0.3
+Loading WikiText-2...
+Train blocks: 18666 Val blocks: 1931
+Loading reference model: gpt2
+Loading student model: gpt2
+Starting SLM training with select_ratio = 0.3
+Epoch 1 Step 100/2334 - SLM loss (selected tokens only): 4.9628
+Epoch 1 Step 200/2334 - SLM loss (selected tokens only): 4.8151
+Epoch 1 Step 300/2334 - SLM loss (selected tokens only): 4.7832
+Epoch 1 Step 400/2334 - SLM loss (selected tokens only): 4.7337
+Epoch 1 Step 500/2334 - SLM loss (selected tokens only): 4.6962
+Epoch 1 Step 600/2334 - SLM loss (selected tokens only): 4.6964
+Epoch 1 Step 700/2334 - SLM loss (selected tokens only): 4.6696
+Epoch 1 Step 800/2334 - SLM loss (selected tokens only): 4.6248
+Epoch 1 Step 900/2334 - SLM loss (selected tokens only): 4.6316
+Epoch 1 Step 1000/2334 - SLM loss (selected tokens only): 4.5863
+Epoch 1 Step 1100/2334 - SLM loss (selected tokens only): 4.5852
+Epoch 1 Step 1200/2334 - SLM loss (selected tokens only): 4.5706
+Epoch 1 Step 1300/2334 - SLM loss (selected tokens only): 4.5484
+Epoch 1 Step 1400/2334 - SLM loss (selected tokens only): 4.5420
+Epoch 1 Step 1500/2334 - SLM loss (selected tokens only): 4.5417
+Epoch 1 Step 1600/2334 - SLM loss (selected tokens only): 4.5593
+Epoch 1 Step 1700/2334 - SLM loss (selected tokens only): 4.5237
+Epoch 1 Step 1800/2334 - SLM loss (selected tokens only): 4.4948
+Epoch 1 Step 1900/2334 - SLM loss (selected tokens only): 4.5030
+Epoch 1 Step 2000/2334 - SLM loss (selected tokens only): 4.4792
+Epoch 1 Step 2100/2334 - SLM loss (selected tokens only): 4.4898
+Epoch 1 Step 2200/2334 - SLM loss (selected tokens only): 4.4633
+Epoch 1 Step 2300/2334 - SLM loss (selected tokens only): 4.4678
+End of epoch 1: val_loss (full tokens) = 3.6700, val_ppl = 39.25
+SLM training complete.
