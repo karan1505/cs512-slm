@@ -1,22 +1,39 @@
 # train_baseline.py
 import math
+import argparse
 import torch
 from torch.utils.data import Dataset, DataLoader
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from datasets import load_dataset
 
 # ------------------------------
-# Config
+# Argparse config
 # ------------------------------
-MODEL_NAME = "gpt2"
-BLOCK_SIZE = 128
-BATCH_SIZE = 8
-NUM_EPOCHS = 1
-LEARNING_RATE = 5e-5
+parser = argparse.ArgumentParser()
+parser.add_argument("--model_name", type=str, default="gpt2",
+                    help="HF model name or local path (default: gpt2).")
+parser.add_argument("--epochs", type=int, default=1,
+                    help="Number of training epochs.")
+parser.add_argument("--batch_size", type=int, default=8,
+                    help="Batch size.")
+parser.add_argument("--lr", type=float, default=5e-5,
+                    help="Learning rate.")
+parser.add_argument("--block_size", type=int, default=128,
+                    help="Sequence length for training blocks.")
+parser.add_argument("--save_dir", type=str, default=None,
+                    help="If set, save model + tokenizer to this directory at the end.")
+args = parser.parse_args()
+
+MODEL_NAME = args.model_name
+BLOCK_SIZE = args.block_size
+BATCH_SIZE = args.batch_size
+NUM_EPOCHS = args.epochs
+LEARNING_RATE = args.lr
 LOG_EVERY = 100
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("Using device:", device)
+print(f"Config: model={MODEL_NAME}, epochs={NUM_EPOCHS}, batch_size={BATCH_SIZE}, lr={LEARNING_RATE}")
 
 # ------------------------------
 # Load tokenizer & dataset
@@ -71,7 +88,6 @@ class HFDataset(Dataset):
 
     def __getitem__(self, idx):
         item = self.ds[idx]
-        # Each item already has fixed length BLOCK_SIZE
         return {
             "input_ids": torch.tensor(item["input_ids"], dtype=torch.long),
             "attention_mask": torch.tensor(item["attention_mask"], dtype=torch.long),
@@ -158,3 +174,9 @@ for epoch in range(NUM_EPOCHS):
     print(f"End of epoch {epoch+1}: val_loss = {val_loss:.4f}, val_ppl = {val_ppl:.2f}")
 
 print("Training complete.")
+
+if args.save_dir is not None:
+    print(f"Saving model and tokenizer to {args.save_dir} ...")
+    model.save_pretrained(args.save_dir)
+    tokenizer.save_pretrained(args.save_dir)
+    print("Save complete.")
