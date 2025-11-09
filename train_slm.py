@@ -10,29 +10,51 @@ from datasets import load_dataset
 # Argparse config
 # ------------------------------
 parser = argparse.ArgumentParser()
+parser.add_argument("--student_path", type=str, default="gpt2",
+                    help="HF model name or local path for the student (default: gpt2).")
+parser.add_argument("--ref_model_name", type=str, default="gpt2",
+                    help="HF model name or local path for the reference model (default: gpt2).")
 parser.add_argument("--select_ratio", type=float, default=0.6,
                     help="Fraction of tokens to keep (0–1).")
 parser.add_argument("--epochs", type=int, default=1,
                     help="Number of training epochs.")
 parser.add_argument("--batch_size", type=int, default=8,
                     help="Batch size.")
+parser.add_argument("--block_size", type=int, default=128,
+                    help="Sequence length for training blocks.")
 parser.add_argument("--subset_train_blocks", type=int, default=None,
                     help="If set, only use this many training blocks (faster runs).")
+parser.add_argument("--selection", type=str, default="topk",
+                    choices=["topk", "stochastic", "random"],
+                    help="Token selection strategy: topk, stochastic, or random.")
+parser.add_argument("--seed", type=int, default=42,
+                    help="Random seed (for stochastic/random selection).")
 args = parser.parse_args()
 
-STUDENT_MODEL_NAME = "gpt2"
-REF_MODEL_NAME = "gpt2"
-BLOCK_SIZE = 128
+STUDENT_MODEL_NAME = args.student_path        # can be HF id or local directory
+REF_MODEL_NAME = args.ref_model_name
+BLOCK_SIZE = args.block_size
 BATCH_SIZE = args.batch_size
 NUM_EPOCHS = args.epochs
 SELECT_RATIO = args.select_ratio
+SELECTION_STRATEGY = args.selection
 LEARNING_RATE = 5e-5
 LOG_EVERY = 100
 
+# ------------------------------
+# Device & seeds
+# ------------------------------
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print("Using device:", device)
-print(f"Config: epochs={NUM_EPOCHS}, batch_size={BATCH_SIZE}, select_ratio={SELECT_RATIO}")
+torch.manual_seed(args.seed)
+if device.type == "cuda":
+    torch.cuda.manual_seed_all(args.seed)
 
+print("Using device:", device)
+print(
+    f"Config: student={STUDENT_MODEL_NAME}, ref={REF_MODEL_NAME}, "
+    f"epochs={NUM_EPOCHS}, batch_size={BATCH_SIZE}, select_ratio={SELECT_RATIO}, "
+    f"selection={SELECTION_STRATEGY}, seed={args.seed}"
+)
 
 # ------------------------------
 # Load tokenizer & dataset
@@ -73,6 +95,10 @@ lm_datasets = tokenized.map(
 train_hf = lm_datasets["train"]
 val_hf = lm_datasets["validation"]
 
+# Optional subset of training blocks (for quick dev)
+if args.subset_train_blocks is not None:
+    train_hf = train_hf.select(range(min(args.subset_train_blocks, len(train_hf))))
+
 print("Train blocks:", len(train_hf), "Val blocks:", len(val_hf))
 
 # ------------------------------
@@ -109,7 +135,7 @@ ref_model.eval()
 for p in ref_model.parameters():
     p.requires_grad = False
 
-print("Loading student model:", STUDENT_MODEL_NAME)
+print("Loading student model from:", STUDENT_MODEL_NAME)
 student_model = AutoModelForCausalLM.from_pretrained(STUDENT_MODEL_NAME)
 student_model.resize_token_embeddings(len(tokenizer))
 student_model.to(device)
@@ -192,18 +218,47 @@ for epoch in range(NUM_EPOCHS):
             student_model, input_ids, attention_mask, use_grad=True
         )
 
-        # 3) excess loss and top-k mask
-        excess = student_loss_tokens - ref_loss_tokens  # [B, T-1]
-        B, Tm1 = excess.size()
+        # 3) compute scores and build mask according to selection strategy
+        # Excess loss as the base score
+        scores = student_loss_tokens - ref_loss_tokens  # [B, T-1]
+        B, Tm1 = scores.size()
         num_tokens = B * Tm1
         k_tokens = max(1, int(SELECT_RATIO * num_tokens))
 
-        # Flatten, choose top-k, build boolean mask
-        flat_excess = excess.view(-1)
-        top_vals, top_idx = torch.topk(flat_excess, k_tokens)
-        mask = torch.zeros_like(flat_excess, dtype=torch.bool)
-        mask[top_idx] = True
-        mask = mask.view(B, Tm1)
+        flat_scores = scores.view(-1)
+
+        if SELECTION_STRATEGY == "topk":
+            # Deterministic top-k by excess loss
+            top_vals, top_idx = torch.topk(flat_scores, k_tokens)
+            mask_flat = torch.zeros_like(flat_scores, dtype=torch.bool)
+            mask_flat[top_idx] = True
+
+        elif SELECTION_STRATEGY == "stochastic":
+            # Sample without replacement with probability ~ max(excess, 0)
+            weights = torch.clamp(flat_scores, min=0.0)
+            total_w = weights.sum()
+            if total_w.item() == 0.0:
+                # Fallback to uniform random if all scores <= 0
+                probs = torch.full_like(weights, 1.0 / num_tokens)
+            else:
+                probs = weights / total_w
+
+            # Multinomial without replacement
+            sampled_idx = torch.multinomial(probs, k_tokens, replacement=False)
+            mask_flat = torch.zeros_like(flat_scores, dtype=torch.bool)
+            mask_flat[sampled_idx] = True
+
+        elif SELECTION_STRATEGY == "random":
+            # Ignore scores; choose k_tokens uniformly at random
+            perm = torch.randperm(num_tokens, device=flat_scores.device)
+            chosen = perm[:k_tokens]
+            mask_flat = torch.zeros_like(flat_scores, dtype=torch.bool)
+            mask_flat[chosen] = True
+
+        else:
+            raise ValueError(f"Unknown selection strategy: {SELECTION_STRATEGY}")
+
+        mask = mask_flat.view(B, Tm1)
 
         # 4) SLM loss: average student loss over selected tokens only
         selected_losses = student_loss_tokens[mask]  # 1D tensor of chosen tokens
