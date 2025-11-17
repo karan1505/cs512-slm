@@ -1,3 +1,13 @@
 /baseline_gpt2_epoch1/
 
 /data/
+
+/baseline_tinyllama_lora_bs4_ga4_e1/
+
+/hf_cache/
+
+/slm_tinyllama_random_r05_e1/
+
+/slm_tinyllama_stochastic_r05_e1/
+
+/slm_tinyllama_topk_r05_e1/

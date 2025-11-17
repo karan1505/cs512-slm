@@ -1,0 +1,306 @@
+Loading dataset…
+Data ready. Steps per epoch: 11578 (batch=4, grad_accum=4)
+Loading reference model…
+`torch_dtype` is deprecated! Use `dtype` instead!
+The `load_in_4bit` and `load_in_8bit` arguments are deprecated and will be removed in the future versions. Please, pass a `BitsAndBytesConfig` object in `quantization_config` argument instead.
+Loading student base model…
+The `load_in_4bit` and `load_in_8bit` arguments are deprecated and will be removed in the future versions. Please, pass a `BitsAndBytesConfig` object in `quantization_config` argument instead.
+Attaching LoRA adapters from baseline_tinyllama_lora_bs4_ga4_e1 …
+trainable params: 12,615,680 || all params: 1,112,664,064 || trainable%: 1.1338
+Starting SLM-LoRA training… selection=stochastic, select_ratio=0.5
+Epoch 1/1 …
+/home/karans/miniconda3/envs/slm512/lib/python3.11/site-packages/bitsandbytes/autograd/_functions.py:181: UserWarning: MatMul8bitLt: inputs will be cast from torch.bfloat16 to float16 during quantization
+  warnings.warn(f"MatMul8bitLt: inputs will be cast from {A.dtype} to float16 during quantization")
+/home/karans/miniconda3/envs/slm512/lib/python3.11/site-packages/bitsandbytes/autograd/_functions.py:181: UserWarning: MatMul8bitLt: inputs will be cast from torch.float32 to float16 during quantization
+  warnings.warn(f"MatMul8bitLt: inputs will be cast from {A.dtype} to float16 during quantization")
+
+opt_step 20 | slm_loss (selected) 9.0977 | 28.2s for last 20 opt steps | ~2874 opt steps left
+.
+opt_step 40 | slm_loss (selected) 9.1374 | 27.6s for last 20 opt steps | ~2854 opt steps left
+.
+opt_step 60 | slm_loss (selected) 9.2491 | 27.8s for last 20 opt steps | ~2834 opt steps left
+.
+opt_step 80 | slm_loss (selected) 8.9163 | 27.7s for last 20 opt steps | ~2814 opt steps left
+.
+opt_step 100 | slm_loss (selected) 9.6164 | 27.7s for last 20 opt steps | ~2794 opt steps left
+
+opt_step 120 | slm_loss (selected) 9.1445 | 27.8s for last 20 opt steps | ~2774 opt steps left
+.
+opt_step 140 | slm_loss (selected) 9.2563 | 27.9s for last 20 opt steps | ~2754 opt steps left
+.
+opt_step 160 | slm_loss (selected) 9.0441 | 28.2s for last 20 opt steps | ~2734 opt steps left
+.
+opt_step 180 | slm_loss (selected) 9.2515 | 28.1s for last 20 opt steps | ~2714 opt steps left
+.
+opt_step 200 | slm_loss (selected) 8.8175 | 28.2s for last 20 opt steps | ~2694 opt steps left
+
+opt_step 220 | slm_loss (selected) 9.2468 | 28.4s for last 20 opt steps | ~2674 opt steps left
+.
+opt_step 240 | slm_loss (selected) 9.2990 | 28.4s for last 20 opt steps | ~2654 opt steps left
+.
+opt_step 260 | slm_loss (selected) 8.9952 | 28.4s for last 20 opt steps | ~2634 opt steps left
+.
+opt_step 280 | slm_loss (selected) 9.3964 | 28.5s for last 20 opt steps | ~2614 opt steps left
+.
+opt_step 300 | slm_loss (selected) 8.9917 | 28.6s for last 20 opt steps | ~2594 opt steps left
+
+opt_step 320 | slm_loss (selected) 8.9609 | 28.5s for last 20 opt steps | ~2574 opt steps left
+.
+opt_step 340 | slm_loss (selected) 9.2907 | 28.6s for last 20 opt steps | ~2554 opt steps left
+.
+opt_step 360 | slm_loss (selected) 9.1060 | 28.6s for last 20 opt steps | ~2534 opt steps left
+.
+opt_step 380 | slm_loss (selected) 9.0216 | 28.7s for last 20 opt steps | ~2514 opt steps left
+.
+opt_step 400 | slm_loss (selected) 9.0814 | 28.6s for last 20 opt steps | ~2494 opt steps left
+
+opt_step 420 | slm_loss (selected) 9.1327 | 28.6s for last 20 opt steps | ~2474 opt steps left
+.
+opt_step 440 | slm_loss (selected) 9.1394 | 28.6s for last 20 opt steps | ~2454 opt steps left
+.
+opt_step 460 | slm_loss (selected) 9.0498 | 28.8s for last 20 opt steps | ~2434 opt steps left
+.
+opt_step 480 | slm_loss (selected) 9.2357 | 28.6s for last 20 opt steps | ~2414 opt steps left
+.
+opt_step 500 | slm_loss (selected) 9.3048 | 28.6s for last 20 opt steps | ~2394 opt steps left
+
+opt_step 520 | slm_loss (selected) 9.1868 | 28.6s for last 20 opt steps | ~2374 opt steps left
+.
+opt_step 540 | slm_loss (selected) 9.0722 | 28.8s for last 20 opt steps | ~2354 opt steps left
+.
+opt_step 560 | slm_loss (selected) 9.2798 | 28.7s for last 20 opt steps | ~2334 opt steps left
+.
+opt_step 580 | slm_loss (selected) 9.1596 | 28.6s for last 20 opt steps | ~2314 opt steps left
+.
+opt_step 600 | slm_loss (selected) 9.2830 | 28.6s for last 20 opt steps | ~2294 opt steps left
+
+opt_step 620 | slm_loss (selected) 9.0436 | 28.6s for last 20 opt steps | ~2274 opt steps left
+.
+opt_step 640 | slm_loss (selected) 9.0200 | 28.8s for last 20 opt steps | ~2254 opt steps left
+.
+opt_step 660 | slm_loss (selected) 9.2786 | 28.7s for last 20 opt steps | ~2234 opt steps left
+.
+opt_step 680 | slm_loss (selected) 9.2714 | 28.7s for last 20 opt steps | ~2214 opt steps left
+.
+opt_step 700 | slm_loss (selected) 9.1652 | 28.7s for last 20 opt steps | ~2194 opt steps left
+
+opt_step 720 | slm_loss (selected) 9.3980 | 28.8s for last 20 opt steps | ~2174 opt steps left
+.
+opt_step 740 | slm_loss (selected) 9.1576 | 28.7s for last 20 opt steps | ~2154 opt steps left
+.
+opt_step 760 | slm_loss (selected) 9.3106 | 28.7s for last 20 opt steps | ~2134 opt steps left
+.
+opt_step 780 | slm_loss (selected) 9.4079 | 28.7s for last 20 opt steps | ~2114 opt steps left
+.
+opt_step 800 | slm_loss (selected) 9.4322 | 28.8s for last 20 opt steps | ~2094 opt steps left
+
+opt_step 820 | slm_loss (selected) 9.1865 | 28.7s for last 20 opt steps | ~2074 opt steps left
+.
+opt_step 840 | slm_loss (selected) 9.2105 | 28.7s for last 20 opt steps | ~2054 opt steps left
+.
+opt_step 860 | slm_loss (selected) 9.1750 | 28.9s for last 20 opt steps | ~2034 opt steps left
+.
+opt_step 880 | slm_loss (selected) 9.0943 | 28.7s for last 20 opt steps | ~2014 opt steps left
+.
+opt_step 900 | slm_loss (selected) 9.1411 | 28.7s for last 20 opt steps | ~1994 opt steps left
+
+opt_step 920 | slm_loss (selected) 8.9718 | 28.7s for last 20 opt steps | ~1974 opt steps left
+.
+opt_step 940 | slm_loss (selected) 9.3831 | 28.9s for last 20 opt steps | ~1954 opt steps left
+.
+opt_step 960 | slm_loss (selected) 9.1205 | 28.7s for last 20 opt steps | ~1934 opt steps left
+.
+opt_step 980 | slm_loss (selected) 9.5216 | 28.7s for last 20 opt steps | ~1914 opt steps left
+.
+opt_step 1000 | slm_loss (selected) 9.0345 | 28.7s for last 20 opt steps | ~1894 opt steps left
+
+opt_step 1020 | slm_loss (selected) 9.1287 | 28.9s for last 20 opt steps | ~1874 opt steps left
+.
+opt_step 1040 | slm_loss (selected) 9.2005 | 28.7s for last 20 opt steps | ~1854 opt steps left
+.
+opt_step 1060 | slm_loss (selected) 9.1227 | 28.7s for last 20 opt steps | ~1834 opt steps left
+.
+opt_step 1080 | slm_loss (selected) 9.2452 | 28.9s for last 20 opt steps | ~1814 opt steps left
+.
+opt_step 1100 | slm_loss (selected) 9.1065 | 28.7s for last 20 opt steps | ~1794 opt steps left
+
+opt_step 1120 | slm_loss (selected) 9.1405 | 28.7s for last 20 opt steps | ~1774 opt steps left
+.
+opt_step 1140 | slm_loss (selected) 9.1095 | 28.7s for last 20 opt steps | ~1754 opt steps left
+.
+opt_step 1160 | slm_loss (selected) 9.4322 | 28.9s for last 20 opt steps | ~1734 opt steps left
+.
+opt_step 1180 | slm_loss (selected) 9.5069 | 28.7s for last 20 opt steps | ~1714 opt steps left
+.
+opt_step 1200 | slm_loss (selected) 9.1025 | 28.7s for last 20 opt steps | ~1694 opt steps left
+
+opt_step 1220 | slm_loss (selected) 8.9418 | 28.7s for last 20 opt steps | ~1674 opt steps left
+.
+opt_step 1240 | slm_loss (selected) 9.4133 | 28.9s for last 20 opt steps | ~1654 opt steps left
+.
+opt_step 1260 | slm_loss (selected) 9.2054 | 28.7s for last 20 opt steps | ~1634 opt steps left
+.
+opt_step 1280 | slm_loss (selected) 9.1641 | 28.7s for last 20 opt steps | ~1614 opt steps left
+.
+opt_step 1300 | slm_loss (selected) 9.0477 | 28.7s for last 20 opt steps | ~1594 opt steps left
+
+opt_step 1320 | slm_loss (selected) 9.3303 | 28.7s for last 20 opt steps | ~1574 opt steps left
+.
+opt_step 1340 | slm_loss (selected) 9.1635 | 28.9s for last 20 opt steps | ~1554 opt steps left
+.
+opt_step 1360 | slm_loss (selected) 9.2820 | 28.7s for last 20 opt steps | ~1534 opt steps left
+.
+opt_step 1380 | slm_loss (selected) 9.0389 | 28.7s for last 20 opt steps | ~1514 opt steps left
+.
+opt_step 1400 | slm_loss (selected) 9.0209 | 28.9s for last 20 opt steps | ~1494 opt steps left
+
+opt_step 1420 | slm_loss (selected) 8.9898 | 28.7s for last 20 opt steps | ~1474 opt steps left
+.
+opt_step 1440 | slm_loss (selected) 9.4199 | 28.7s for last 20 opt steps | ~1454 opt steps left
+.
+opt_step 1460 | slm_loss (selected) 9.0368 | 28.7s for last 20 opt steps | ~1434 opt steps left
+.
+opt_step 1480 | slm_loss (selected) 9.1046 | 28.7s for last 20 opt steps | ~1414 opt steps left
+.
+opt_step 1500 | slm_loss (selected) 9.4813 | 28.9s for last 20 opt steps | ~1394 opt steps left
+
+opt_step 1520 | slm_loss (selected) 8.8930 | 28.8s for last 20 opt steps | ~1374 opt steps left
+.
+opt_step 1540 | slm_loss (selected) 9.0231 | 28.7s for last 20 opt steps | ~1354 opt steps left
+.
+opt_step 1560 | slm_loss (selected) 9.1911 | 28.7s for last 20 opt steps | ~1334 opt steps left
+.
+opt_step 1580 | slm_loss (selected) 9.1709 | 28.9s for last 20 opt steps | ~1314 opt steps left
+.
+opt_step 1600 | slm_loss (selected) 9.3933 | 28.7s for last 20 opt steps | ~1294 opt steps left
+
+opt_step 1620 | slm_loss (selected) 9.0095 | 28.7s for last 20 opt steps | ~1274 opt steps left
+.
+opt_step 1640 | slm_loss (selected) 9.2161 | 28.7s for last 20 opt steps | ~1254 opt steps left
+.
+opt_step 1660 | slm_loss (selected) 8.9848 | 28.8s for last 20 opt steps | ~1234 opt steps left
+.
+opt_step 1680 | slm_loss (selected) 8.9774 | 28.9s for last 20 opt steps | ~1214 opt steps left
+.
+opt_step 1700 | slm_loss (selected) 9.0762 | 28.8s for last 20 opt steps | ~1194 opt steps left
+
+opt_step 1720 | slm_loss (selected) 9.1666 | 28.7s for last 20 opt steps | ~1174 opt steps left
+.
+opt_step 1740 | slm_loss (selected) 9.2710 | 28.8s for last 20 opt steps | ~1154 opt steps left
+.
+opt_step 1760 | slm_loss (selected) 8.8627 | 28.9s for last 20 opt steps | ~1134 opt steps left
+.
+opt_step 1780 | slm_loss (selected) 8.9083 | 28.7s for last 20 opt steps | ~1114 opt steps left
+.
+opt_step 1800 | slm_loss (selected) 8.9835 | 28.8s for last 20 opt steps | ~1094 opt steps left
+
+opt_step 1820 | slm_loss (selected) 9.4800 | 28.7s for last 20 opt steps | ~1074 opt steps left
+.
+opt_step 1840 | slm_loss (selected) 9.2700 | 28.9s for last 20 opt steps | ~1054 opt steps left
+.
+opt_step 1860 | slm_loss (selected) 9.2546 | 28.8s for last 20 opt steps | ~1034 opt steps left
+.
+opt_step 1880 | slm_loss (selected) 9.1305 | 28.7s for last 20 opt steps | ~1014 opt steps left
+.
+opt_step 1900 | slm_loss (selected) 9.1206 | 28.7s for last 20 opt steps | ~994 opt steps left
+
+opt_step 1920 | slm_loss (selected) 9.4000 | 28.9s for last 20 opt steps | ~974 opt steps left
+.
+opt_step 1940 | slm_loss (selected) 9.2225 | 28.7s for last 20 opt steps | ~954 opt steps left
+.
+opt_step 1960 | slm_loss (selected) 9.4157 | 28.8s for last 20 opt steps | ~934 opt steps left
+.
+opt_step 1980 | slm_loss (selected) 9.0003 | 28.8s for last 20 opt steps | ~914 opt steps left
+.
+opt_step 2000 | slm_loss (selected) 9.0748 | 28.9s for last 20 opt steps | ~894 opt steps left
+
+opt_step 2020 | slm_loss (selected) 9.1596 | 28.8s for last 20 opt steps | ~874 opt steps left
+.
+opt_step 2040 | slm_loss (selected) 9.2745 | 28.7s for last 20 opt steps | ~854 opt steps left
+.
+opt_step 2060 | slm_loss (selected) 8.9763 | 28.9s for last 20 opt steps | ~834 opt steps left
+.
+opt_step 2080 | slm_loss (selected) 8.5747 | 28.7s for last 20 opt steps | ~814 opt steps left
+.
+opt_step 2100 | slm_loss (selected) 9.1311 | 28.7s for last 20 opt steps | ~794 opt steps left
+
+opt_step 2120 | slm_loss (selected) 9.3112 | 28.7s for last 20 opt steps | ~774 opt steps left
+.
+opt_step 2140 | slm_loss (selected) 9.1563 | 28.9s for last 20 opt steps | ~754 opt steps left
+.
+opt_step 2160 | slm_loss (selected) 9.2106 | 28.8s for last 20 opt steps | ~734 opt steps left
+.
+opt_step 2180 | slm_loss (selected) 9.2330 | 28.7s for last 20 opt steps | ~714 opt steps left
+.
+opt_step 2200 | slm_loss (selected) 9.1850 | 28.9s for last 20 opt steps | ~694 opt steps left
+
+opt_step 2220 | slm_loss (selected) 9.4878 | 28.7s for last 20 opt steps | ~674 opt steps left
+.
+opt_step 2240 | slm_loss (selected) 9.2884 | 28.8s for last 20 opt steps | ~654 opt steps left
+.
+opt_step 2260 | slm_loss (selected) 9.2713 | 28.8s for last 20 opt steps | ~634 opt steps left
+.
+opt_step 2280 | slm_loss (selected) 9.3501 | 28.7s for last 20 opt steps | ~614 opt steps left
+.
+opt_step 2300 | slm_loss (selected) 9.2659 | 28.9s for last 20 opt steps | ~594 opt steps left
+
+opt_step 2320 | slm_loss (selected) 9.1192 | 28.8s for last 20 opt steps | ~574 opt steps left
+.
+opt_step 2340 | slm_loss (selected) 9.1906 | 28.7s for last 20 opt steps | ~554 opt steps left
+.
+opt_step 2360 | slm_loss (selected) 9.2477 | 28.9s for last 20 opt steps | ~534 opt steps left
+.
+opt_step 2380 | slm_loss (selected) 9.2986 | 28.7s for last 20 opt steps | ~514 opt steps left
+.
+opt_step 2400 | slm_loss (selected) 9.4487 | 28.7s for last 20 opt steps | ~494 opt steps left
+
+opt_step 2420 | slm_loss (selected) 9.3111 | 28.7s for last 20 opt steps | ~474 opt steps left
+.
+opt_step 2440 | slm_loss (selected) 9.4599 | 28.8s for last 20 opt steps | ~454 opt steps left
+.
+opt_step 2460 | slm_loss (selected) 9.2864 | 28.9s for last 20 opt steps | ~434 opt steps left
+.
+opt_step 2480 | slm_loss (selected) 9.3065 | 28.7s for last 20 opt steps | ~414 opt steps left
+.
+opt_step 2500 | slm_loss (selected) 9.2194 | 28.7s for last 20 opt steps | ~394 opt steps left
+
+opt_step 2520 | slm_loss (selected) 9.3384 | 28.7s for last 20 opt steps | ~374 opt steps left
+.
+opt_step 2540 | slm_loss (selected) 9.3045 | 28.9s for last 20 opt steps | ~354 opt steps left
+.
+opt_step 2560 | slm_loss (selected) 9.2198 | 28.8s for last 20 opt steps | ~334 opt steps left
+.
+opt_step 2580 | slm_loss (selected) 9.1984 | 28.8s for last 20 opt steps | ~314 opt steps left
+.
+opt_step 2600 | slm_loss (selected) 8.6659 | 28.7s for last 20 opt steps | ~294 opt steps left
+
+opt_step 2620 | slm_loss (selected) 9.1854 | 28.9s for last 20 opt steps | ~274 opt steps left
+.
+opt_step 2640 | slm_loss (selected) 9.3555 | 28.7s for last 20 opt steps | ~254 opt steps left
+.
+opt_step 2660 | slm_loss (selected) 9.0673 | 28.7s for last 20 opt steps | ~234 opt steps left
+.
+opt_step 2680 | slm_loss (selected) 9.2983 | 28.8s for last 20 opt steps | ~214 opt steps left
+.
+opt_step 2700 | slm_loss (selected) 9.2595 | 28.9s for last 20 opt steps | ~194 opt steps left
+
+opt_step 2720 | slm_loss (selected) 9.2483 | 28.7s for last 20 opt steps | ~174 opt steps left
+.
+opt_step 2740 | slm_loss (selected) 9.1721 | 28.7s for last 20 opt steps | ~154 opt steps left
+.
+opt_step 2760 | slm_loss (selected) 8.9268 | 28.7s for last 20 opt steps | ~134 opt steps left
+.
+opt_step 2780 | slm_loss (selected) 9.3070 | 28.8s for last 20 opt steps | ~114 opt steps left
+.
+opt_step 2800 | slm_loss (selected) 9.1539 | 28.9s for last 20 opt steps | ~94 opt steps left
+
+opt_step 2820 | slm_loss (selected) 9.0311 | 28.8s for last 20 opt steps | ~74 opt steps left
+.
+opt_step 2840 | slm_loss (selected) 9.2103 | 28.8s for last 20 opt steps | ~54 opt steps left
+.
+opt_step 2860 | slm_loss (selected) 9.1672 | 28.9s for last 20 opt steps | ~34 opt steps left
+.
+opt_step 2880 | slm_loss (selected) 9.2201 | 28.7s for last 20 opt steps | ~14 opt steps left
+End epoch 1: val_loss=2.3061 val_ppl=10.04
+Saving student model (LoRA adapters) → slm_tinyllama_stochastic_r05_e1
+Done.
