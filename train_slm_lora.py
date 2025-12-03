@@ -10,9 +10,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 from peft import PeftModel, prepare_model_for_kbit_training
 
 
-# ------------------------------
 # Args
-# ------------------------------
 parser = argparse.ArgumentParser()
 parser.add_argument("--data", type=str, default="data/owm10k_tinyllama_bs128",
                     help="Path to token-packed dataset (load_from_disk).")
@@ -49,9 +47,7 @@ def p(msg: str):
     print(msg, flush=True)
 
 
-# ------------------------------
 # Dataset
-# ------------------------------
 p("Loading dataset…")
 ds = load_from_disk(args.data)
 train_ds, val_ds = ds["train"], ds["validation"]
@@ -76,16 +72,12 @@ p(
     f"(batch={args.batch_size}, grad_accum={args.grad_accum})"
 )
 
-# ------------------------------
 # Tokenizer
-# ------------------------------
 tokenizer = AutoTokenizer.from_pretrained(args.base_model_name)
 if tokenizer.pad_token is None:
     tokenizer.pad_token = tokenizer.eos_token
 
-# ------------------------------
 # Models (ref + student)
-# ------------------------------
 torch.backends.cuda.matmul.allow_tf32 = True
 dtype = torch.bfloat16 if args.bf16 else None
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -142,9 +134,7 @@ else:
 loss_fct = torch.nn.CrossEntropyLoss(reduction="none")
 
 
-# ------------------------------
 # Helper: per-token losses
-# ------------------------------
 def token_losses(model, input_ids, attention_mask, use_grad: bool):
     """
     Returns per-token next-token prediction loss.
@@ -166,9 +156,7 @@ def token_losses(model, input_ids, attention_mask, use_grad: bool):
     return loss
 
 
-# ------------------------------
 # Evaluation (full-token CLM)
-# ------------------------------
 def evaluate():
     student_model.eval()
     total_loss, n_batches = 0.0, 0
@@ -184,9 +172,7 @@ def evaluate():
     return avg, math.exp(avg)
 
 
-# ------------------------------
 # SLM training loop
-# ------------------------------
 p(
     f"Starting SLM-LoRA training… selection={args.selection}, "
     f"select_ratio={args.select_ratio}"

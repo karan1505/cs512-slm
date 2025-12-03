@@ -6,9 +6,7 @@ from torch.utils.data import DataLoader
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from peft import LoraConfig, get_peft_model, TaskType, prepare_model_for_kbit_training
 
-# ------------------------------
-# Args
-# ------------------------------
+
 parser = argparse.ArgumentParser()
 parser.add_argument("--data", type=str, default="data/owm10k_tinyllama_bs128")
 parser.add_argument(
@@ -36,9 +34,7 @@ def p(msg: str) -> None:
     print(msg, flush=True)
 
 
-# ------------------------------
-# Data
-# ------------------------------
+
 p("Loading dataset…")
 ds = load_from_disk(args.data)
 train_ds, val_ds = ds["train"], ds["validation"]
@@ -73,9 +69,7 @@ p(
     f"(batch={args.batch_size}, grad_accum={args.grad_accum})"
 )
 
-# ------------------------------
 # Tokenizer & model
-# ------------------------------
 tokenizer = AutoTokenizer.from_pretrained(args.model_name)
 if tokenizer.pad_token is None:
     tokenizer.pad_token = tokenizer.eos_token
@@ -121,9 +115,7 @@ if args.use_lora:
     model = get_peft_model(model, lconf)
     model.print_trainable_parameters()
 
-# ------------------------------
 # Optimizer
-# ------------------------------
 try:
     opt = torch.optim.AdamW(model.parameters(), lr=args.lr, fused=True)
     p("Using fused AdamW optimizer.")
@@ -132,9 +124,7 @@ except TypeError:
     p("Using standard AdamW optimizer (fused not available).")
 
 
-# ------------------------------
 # Eval
-# ------------------------------
 def evaluate():
     model.eval()
     total, n = 0.0, 0
@@ -152,9 +142,7 @@ def evaluate():
     return avg, math.exp(avg)
 
 
-# ------------------------------
 # Train loop
-# ------------------------------
 p("Starting CLM baseline training…")
 model.train()
 global_step = 0
@@ -200,9 +188,7 @@ for epoch in range(args.epochs):
     vloss, vppl = evaluate()
     p(f"End epoch {epoch + 1}: val_loss={vloss:.4f} val_ppl={vppl:.2f}")
 
-# ------------------------------
 # Save
-# ------------------------------
 p(f"Saving → {args.save_dir}")
 model.save_pretrained(args.save_dir)
 tokenizer.save_pretrained(args.save_dir)
