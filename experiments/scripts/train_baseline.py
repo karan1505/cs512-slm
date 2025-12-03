@@ -6,9 +6,7 @@ from torch.utils.data import Dataset, DataLoader
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from datasets import load_dataset
 
-# ------------------------------
 # Argparse config
-# ------------------------------
 parser = argparse.ArgumentParser()
 parser.add_argument("--model_name", type=str, default="gpt2",
                     help="HF model name or local path (default: gpt2).")
@@ -35,9 +33,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("Using device:", device)
 print(f"Config: model={MODEL_NAME}, epochs={NUM_EPOCHS}, batch_size={BATCH_SIZE}, lr={LEARNING_RATE}")
 
-# ------------------------------
 # Load tokenizer & dataset
-# ------------------------------
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 if tokenizer.pad_token is None:
     tokenizer.pad_token = tokenizer.eos_token
@@ -76,9 +72,7 @@ val_hf = lm_datasets["validation"]
 
 print("Train blocks:", len(train_hf), "Val blocks:", len(val_hf))
 
-# ------------------------------
 # Wrap HF dataset in PyTorch Dataset
-# ------------------------------
 class HFDataset(Dataset):
     def __init__(self, hf_ds):
         self.ds = hf_ds
@@ -99,9 +93,7 @@ val_ds = HFDataset(val_hf)
 train_loader = DataLoader(train_ds, batch_size=BATCH_SIZE, shuffle=True)
 val_loader = DataLoader(val_ds, batch_size=BATCH_SIZE, shuffle=False)
 
-# ------------------------------
 # Load model
-# ------------------------------
 model = AutoModelForCausalLM.from_pretrained(MODEL_NAME)
 model.resize_token_embeddings(len(tokenizer))
 model.to(device)
@@ -109,9 +101,7 @@ model.to(device)
 optimizer = torch.optim.AdamW(model.parameters(), lr=LEARNING_RATE)
 scaler = torch.cuda.amp.GradScaler(enabled=(device.type == "cuda"))
 
-# ------------------------------
 # Training & evaluation loops
-# ------------------------------
 def evaluate():
     model.eval()
     total_loss = 0.0
