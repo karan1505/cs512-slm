@@ -1,0 +1,18 @@
+Using device: cuda
+Loading tokenizer …
+Loading BASELINE model …
+torch_dtype is deprecated! Use dtype instead!
+Baseline loss: 7.0240
+Traceback (most recent call last):
+  File "/home/karans/Desktop/Fall 2025/CS512/Project/repo/cs512-slm/grad_cosine_similarity.py", line 162, in <module>
+    main(args)
+  File "/home/karans/Desktop/Fall 2025/CS512/Project/repo/cs512-slm/grad_cosine_similarity.py", line 117, in main
+    g_base = compute_baseline_grad(
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/karans/Desktop/Fall 2025/CS512/Project/repo/cs512-slm/grad_cosine_similarity.py", line 46, in compute_baseline_grad
+    grad_vec = get_grad_vector_from_params(model.parameters())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/karans/Desktop/Fall 2025/CS512/Project/repo/cs512-slm/grad_cosine_similarity.py", line 14, in get_grad_vector_from_params
+    return torch.cat(grads)
+           ^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.05 GiB. GPU 0 has a total capacity of 7.62 GiB of which 1005.94 MiB is free. Including non-PyTorch memory, this process has 6.59 GiB memory in use. Of the allocated memory 6.17 GiB is allocated by PyTorch, and 297.85 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
